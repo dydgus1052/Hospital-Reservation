@@ -5,4 +5,4 @@
 <img width="606" alt="Requirement" src="https://user-images.githubusercontent.com/108213846/224554057-14df42b3-bd21-4faa-b487-9eceb3326ac2.png">
 
 ### ⚙️ ER-Diagram
-<img width="800" alt="Requirement" src="https://user-images.githubusercontent.com/108213846/224554198-90e3a378-0c73-4059-afc0-b4c330d3e83a.pngg">
+<img width="800" alt="Requirement" src="https://user-images.githubusercontent.com/108213846/224554271-de56f70e-38be-47ff-81c6-dbdd92903210.png">
