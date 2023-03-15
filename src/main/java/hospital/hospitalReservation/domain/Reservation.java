@@ -34,7 +34,7 @@ public class Reservation {
     private LocalDateTime dateTime;
 
     // 예약 메소드
-    public Reservation createReservation(Patient patient, Doctor doctor) {
+    public static Reservation createReservation(Patient patient, Doctor doctor) {
         Reservation reservation = new Reservation();
         reservation.setPatient(patient);
         reservation.setDoctor(doctor);
