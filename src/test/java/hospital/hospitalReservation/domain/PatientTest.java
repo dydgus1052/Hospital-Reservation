@@ -1,5 +1,8 @@
 package hospital.hospitalReservation.domain;
 
+import hospital.hospitalReservation.repository.DoctorReposotiry;
+import hospital.hospitalReservation.repository.HospitalRepository;
+import hospital.hospitalReservation.repository.OfficeRepository;
 import hospital.hospitalReservation.repository.PatientRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
@@ -16,6 +19,14 @@ class PatientTest {
     EntityManager em;
     @Autowired
     private PatientRepository patientRepository;
+    @Autowired
+    private DoctorReposotiry doctorReposotiry;
+
+    @Autowired
+    private OfficeRepository officeRepository;
+
+    @Autowired
+    private HospitalRepository hospitalRepository;
 
     @Test
     @Rollback(false)
@@ -30,13 +41,15 @@ class PatientTest {
         patientB.setPatientName("patientB");
         patientB.setGender(Gender.MALE);
 
-        patientRepository.savePatient(patientA);
-        patientRepository.savePatient(patientB);
+        patientRepository.save(patientA);
+        patientRepository.save(patientB);
 
         //==================병원등록====================
         Hospital hospitalA = new Hospital();
         hospitalA.setHospitalName("hospitalA");
-        em.persist(hospitalA);
+        hospitalA.setAddress(new Address("서울", "강가", "123-123"));
+
+        hospitalRepository.save(hospitalA);
 
         //==================진료과등록====================
         Office officeA = new Office();
@@ -45,8 +58,9 @@ class PatientTest {
         Office officeB = new Office();
         officeB.setOfficeName("officeB");
         officeB.setHospital(hospitalA);
-        em.persist(officeA);
-        em.persist(officeB);
+
+        officeRepository.save(officeA);
+        officeRepository.save(officeB);
 
         //==================의사등록====================
         Doctor doctorA = new Doctor();
@@ -59,21 +73,19 @@ class PatientTest {
         doctorB.setOffice(officeA);
         doctorB.setHospitalName(officeA);
 
-        em.persist(doctorA);
-        em.persist(doctorB);
+        doctorReposotiry.save(doctorA);
+        doctorReposotiry.save(doctorB);
 
         //==================진료예약====================
-        Reservation reservation = new Reservation();
-        Reservation reservation1 = reservation.createReservation(patientA, doctorB);
+        Reservation reservation = Reservation.createReservation(patientA, doctorB);
         em.persist(reservation);
-        em.persist(reservation1);
 
         em.flush();
         em.clear();
 
-        em.find(Reservation.class, reservation1.getId());
-        reservation1.cancel();
-        System.out.println("reservation1.getReservationStatus() = " + reservation1.getReservationStatus());
+        Reservation find = em.find(Reservation.class, reservation.getId());
+        find.cancel();
+        System.out.println("reservation1.getReservationStatus() = " + reservation.getReservationStatus());
     }
 
 }

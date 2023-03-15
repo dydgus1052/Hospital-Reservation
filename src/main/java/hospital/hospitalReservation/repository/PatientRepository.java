@@ -13,11 +13,11 @@ public class PatientRepository {
 
     private final EntityManager em;
 
-    public void savePatient(Patient patient) {
+    public void save(Patient patient) {
         em.persist(patient);
     }
 
-    public Patient findPatient(Long id) {
+    public Patient findOne(Long id) {
         return em.find(Patient.class, id);
     }
 
