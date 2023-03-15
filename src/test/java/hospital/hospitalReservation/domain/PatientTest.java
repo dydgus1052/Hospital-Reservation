@@ -36,6 +36,7 @@ class PatientTest {
         //==================병원등록====================
         Hospital hospitalA = new Hospital();
         hospitalA.setHospitalName("hospitalA");
+        hospitalA.setAddress(new Address("서울", "강가", "123-123"));
         em.persist(hospitalA);
 
         //==================진료과등록====================
@@ -63,17 +64,15 @@ class PatientTest {
         em.persist(doctorB);
 
         //==================진료예약====================
-        Reservation reservation = new Reservation();
-        Reservation reservation1 = reservation.createReservation(patientA, doctorB);
+        Reservation reservation = Reservation.createReservation(patientA, doctorB);
         em.persist(reservation);
-        em.persist(reservation1);
 
         em.flush();
         em.clear();
 
-        em.find(Reservation.class, reservation1.getId());
-        reservation1.cancel();
-        System.out.println("reservation1.getReservationStatus() = " + reservation1.getReservationStatus());
+        Reservation find = em.find(Reservation.class, reservation.getId());
+        find.cancel();
+        System.out.println("reservation1.getReservationStatus() = " + reservation.getReservationStatus());
     }
 
 }
