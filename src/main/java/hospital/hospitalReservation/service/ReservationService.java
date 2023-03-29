@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -24,11 +26,23 @@ public class ReservationService {
 
         Patient patient = patientRepository.findOne(patientId);
         Doctor doctor = doctorRepository.findOne(doctorId);
+        validateDuplicateDoctor(patient, doctor);
 
         Reservation reservation = Reservation.createReservation(patient, doctor);
         reservationRepository.save(reservation);
 
         return reservation.getId();
+    }
+
+    private void validateDuplicateDoctor(Patient patient, Doctor doctor) {
+        Patient findPatient = patientRepository.findOne(patient.getId());
+        Doctor findDoctor = doctorRepository.findOne(doctor.getId());
+
+        List<Reservation> findReservationList = findPatient.getReservationList();
+        for (Reservation findReservation : findReservationList) {
+            if (findReservation.getDoctor().getId() == findDoctor.getId())
+                throw new IllegalStateException("환자는 특정 의사에 대해 하나의 예약만 가질 수 있습니다.");
+        }
     }
 
     public void cancel(Long cancelId) {

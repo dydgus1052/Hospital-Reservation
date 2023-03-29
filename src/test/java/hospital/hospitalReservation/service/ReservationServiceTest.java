@@ -2,6 +2,7 @@ package hospital.hospitalReservation.service;
 
 import hospital.hospitalReservation.domain.*;
 import hospital.hospitalReservation.repository.ReservationRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,7 +29,6 @@ class ReservationServiceTest {
     private ReservationRepository reservationRepository;
 
     @Test
-    @Rollback(false)
     public void 예약() throws Exception {
 
         Patient patientA = new Patient();
@@ -60,8 +60,11 @@ class ReservationServiceTest {
 
         Long reserveId = reservationService.reserve(patientA.getId(), doctor.getId());
 
-        Reservation find = reservationRepository.findOne(reserveId);
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> reservationService.reserve(patientA.getId(), doctor.getId()));
+        Assertions.assertThat(e.getMessage()).isEqualTo("환자는 특정 의사에 대해 하나의 예약만 가질 수 있습니다.");
 
+        Reservation find = reservationRepository.findOne(reserveId);
         reservationService.cancel(find.getId());
     }
+
 }
