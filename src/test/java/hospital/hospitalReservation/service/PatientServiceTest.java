@@ -48,7 +48,7 @@ class PatientServiceTest {
         patientB.setPatientName("patientB");
 
         Patient patientC = new Patient();
-        patientC.setPatientName("하리무상");
+        patientC.setPatientName("patientC");
         patientC.setAge(24L);
         patientC.setGender(Gender.FEMALE);
 
