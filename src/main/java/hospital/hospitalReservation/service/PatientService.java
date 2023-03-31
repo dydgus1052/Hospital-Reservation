@@ -22,6 +22,12 @@ public class PatientService {
         return patient.getId();
     }
 
+    @Transactional
+    public void update(Long id, Long age) {
+        Patient findPatient = patientRepository.findOne(id);
+        findPatient.setAge(age);
+    }
+
     // 환자 한명 검색
     public Patient findOne(Long id) {
         return patientRepository.findOne(id);

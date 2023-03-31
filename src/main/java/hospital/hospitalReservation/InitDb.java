@@ -55,17 +55,23 @@ public class InitDb {
             Reservation reservation2 = Reservation.createReservation(patient2, doctor3);
             Reservation reservation3 = Reservation.createReservation(patient3, doctor2);
             Reservation reservation4 = Reservation.createReservation(patient4, doctor1);
+            Reservation reservation5 = Reservation.createReservation(patient1, doctor3);
+            Reservation reservation6 = Reservation.createReservation(patient1, doctor2);
+            Reservation reservation7 = Reservation.createReservation(patient1, doctor1);
             em.persist(reservation1);
             em.persist(reservation2);
             em.persist(reservation3);
             em.persist(reservation4);
+            em.persist(reservation5);
+            em.persist(reservation6);
+            em.persist(reservation7);
         }
 
         private Patient createPatient(String name, Long age, Gender gender) {
             Patient patient = new Patient();
             patient.setPatientName(name);
             patient.setAge(age);
-            patient.setGender(Gender.FEMALE);
+            patient.setGender(gender);
 
             return patient;
         }
