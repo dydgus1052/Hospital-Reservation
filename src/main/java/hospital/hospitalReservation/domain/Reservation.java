@@ -24,10 +24,12 @@ public class Reservation {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
+
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
-
-    private String hospitalName;
 
     private String officeName;
 
@@ -61,6 +63,11 @@ public class Reservation {
 
         Office findOffice = doctor.getOffice();
         officeName = findOffice.getOfficeName();
-        hospitalName = findOffice.getHospital().getHospitalName();
+        hospital = findOffice.getHospital();
+    }
+
+    public void setHoispital(Hospital hospital) {
+        this.hospital = hospital;
+        hospital.getReservationList().add(this);
     }
 }

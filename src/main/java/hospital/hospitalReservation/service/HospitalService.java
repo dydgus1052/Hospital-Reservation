@@ -1,5 +1,6 @@
 package hospital.hospitalReservation.service;
 
+import hospital.hospitalReservation.domain.Address;
 import hospital.hospitalReservation.domain.Hospital;
 import hospital.hospitalReservation.repository.HospitalRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +28,11 @@ public class HospitalService {
 
     public List<Hospital> findAll() {
         return hospitalRepository.findAll();
+    }
+
+    @Transactional
+    public void update(Long id, Address address) {
+        Hospital findHospital = hospitalRepository.findOne(id);
+        findHospital.setAddress(new Address(address.getCity(), address.getStreet(), address.getZipcode()));
     }
 }

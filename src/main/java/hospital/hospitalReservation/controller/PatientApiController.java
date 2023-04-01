@@ -104,20 +104,15 @@ public class PatientApiController {
     @Data
     @AllArgsConstructor
     static class ReservationDto {
-
-        private String doctorName;
-
-        private ReservationStatus reservationStatus;
-
         private String hospitalName;
-
         private String officeName;
-
+        private String doctorName;
+        private ReservationStatus reservationStatus;
         private LocalDateTime dateTime;
 
         public ReservationDto(Reservation reservation) {
             doctorName = reservation.getDoctor().getDoctorName();
-            hospitalName = reservation.getHospitalName();
+            hospitalName = reservation.getHospital().getHospitalName();
             officeName = reservation.getOfficeName();
 
             reservationStatus = reservation.getReservationStatus();
