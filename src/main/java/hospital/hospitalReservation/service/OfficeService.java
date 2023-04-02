@@ -28,4 +28,14 @@ public class OfficeService {
     public List<Office> findAll() {
         return officeRepository.findAll();
     }
+
+    public List<Office> findAllByHospitalId(Long id) {
+        return officeRepository.findAllByHospitalId(id);
+    }
+
+    @Transactional
+    public void update(Long hospitalId, Long officeId, String tel) {
+        Office office = officeRepository.findByTwoId(hospitalId, officeId);
+        office.setTel(tel);
+    }
 }

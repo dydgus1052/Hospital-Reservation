@@ -25,4 +25,17 @@ public class OfficeRepository {
         return em.createQuery("select o from Office o", Office.class).
                 getResultList();
     }
+
+    public List<Office> findAllByHospitalId(Long hospitalId) {
+        return em.createQuery("select o from Office o where o.hospital.id = :id", Office.class)
+                .setParameter("id", hospitalId)
+                .getResultList();
+    }
+
+    public Office findByTwoId(Long hospitalId, Long officeId) {
+        return em.createQuery("select o from Office o where o.id = :officeId AND o.hospital.id =:hospitalId", Office.class)
+                .setParameter("officeId", officeId)
+                .setParameter("hospitalId", hospitalId)
+                .getSingleResult();
+    }
 }
